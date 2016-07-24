@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class DocussResponse {
+public class DocussResponse {
     private String path;
     private int statusCode;
     private List<String> headers;

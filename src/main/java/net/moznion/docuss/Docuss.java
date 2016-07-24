@@ -1,6 +1,9 @@
 package net.moznion.docuss;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import net.moznion.docuss.formatter.DocussFormatterGenerator;
+import net.moznion.docuss.formatter.YAMLDocussFormatterGenerator;
+import net.moznion.docuss.presenter.DocussPresenter;
+import net.moznion.docuss.presenter.StandardOutDocussPresenter;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -23,11 +26,13 @@ import java.util.function.Consumer;
 
 public class Docuss {
     private final HttpClientBuilder httpClientBuilder;
-    private final ObjectMapper objectMapper;
+    private final DocussFormatterGenerator formatter;
+    private final DocussPresenter presenter;
 
     public Docuss() {
         httpClientBuilder = HttpClientBuilder.create();
-        objectMapper = new ObjectMapper();
+        formatter = new YAMLDocussFormatterGenerator();
+        presenter = new StandardOutDocussPresenter();
     }
 
     public void shouldGet(final URI uri, final Consumer<HttpResponse> expected) {
@@ -68,6 +73,6 @@ public class Docuss {
 
         final DocussResponse docussResponse =
                 new DocussResponse(uri.getPath(), statusLine.getStatusCode(), headers, body);
-        System.out.println(objectMapper.writeValueAsString(docussResponse));
+        presenter.out(formatter, docussResponse);
     }
 }
