@@ -1,9 +1,9 @@
 package net.moznion.docuss;
 
 import net.moznion.docuss.formatter.DocussFormatterGenerator;
-import net.moznion.docuss.formatter.YAMLDocussFormatterGenerator;
+import net.moznion.docuss.formatter.YAMLFormatterGenerator;
 import net.moznion.docuss.presenter.DocussPresenter;
-import net.moznion.docuss.presenter.StandardOutDocussPresenter;
+import net.moznion.docuss.presenter.StandardOutPresenter;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -31,8 +31,8 @@ public class Docuss {
 
     public Docuss() {
         httpClientBuilder = HttpClientBuilder.create();
-        formatter = new YAMLDocussFormatterGenerator();
-        presenter = new StandardOutDocussPresenter();
+        formatter = new YAMLFormatterGenerator();
+        presenter = new StandardOutPresenter();
     }
 
     public void shouldGet(final URI uri, final Consumer<HttpResponse> expected) {

@@ -7,7 +7,7 @@ import net.moznion.docuss.DocussResponse;
 
 import java.util.function.Function;
 
-public class YAMLDocussFormatterGenerator implements DocussFormatterGenerator {
+public class YAMLFormatterGenerator implements DocussFormatterGenerator {
     private final ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
     @Override
