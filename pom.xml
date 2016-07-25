@@ -8,8 +8,8 @@
     <packaging>jar</packaging>
 
     <name>docuss</name>
-    <description></description>
-    <url></url>
+    <description>A library to test with describing documentation for controller layer</description>
+    <url>https://github.com/moznion/docuss</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -194,9 +194,9 @@
     </distributionManagement>
 
     <scm>
-        <url></url>
-        <connection>scm:git:</connection>
-        <developerConnection>scm:git:</developerConnection>
+        <url>https://github.com/moznion/docuss</url>
+        <connection>scm:git:git@github.com:moznion/docuss.git</connection>
+        <developerConnection>scm:git:git@github.com:moznion/docuss.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
