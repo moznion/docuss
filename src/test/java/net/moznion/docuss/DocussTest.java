@@ -1,22 +1,19 @@
 package net.moznion.docuss;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import me.geso.servlettester.jetty.JettyServletTester;
+import net.moznion.capture.output.stream.Capturer;
+import net.moznion.docuss.formatter.YAMLFormatterGenerator;
+import net.moznion.docuss.presenter.FileOutPresenter;
+import net.moznion.docuss.presenter.StandardOutPresenter;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import net.moznion.capture.output.stream.Capturer;
-import net.moznion.docuss.formatter.YAMLFormatterGenerator;
-import net.moznion.docuss.presenter.FileOutPresenter;
-import net.moznion.docuss.presenter.StandardOutPresenter;
-
-import me.geso.servlettester.jetty.JettyServletTester;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DocussTest {
     @Test
