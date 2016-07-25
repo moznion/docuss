@@ -1,10 +1,10 @@
-Docuss
-=============
+Docuss [![Build Status](https://travis-ci.org/moznion/docuss.svg?branch=master)](https://travis-ci.org/moznion/docuss)
+==
 
 A library to test with describing documentation for controller layer.
 
 Synopsis
----
+--
 
 ```java
 final Docuss docuss = new Docuss(new YAMLFormatterGenerator(), new StandardOutPresenter());
