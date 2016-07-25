@@ -21,19 +21,17 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 import net.moznion.docuss.formatter.DocussFormatterGenerator;
-import net.moznion.docuss.formatter.YAMLFormatterGenerator;
 import net.moznion.docuss.presenter.DocussPresenter;
-import net.moznion.docuss.presenter.StandardOutPresenter;
 
 public class Docuss {
     private final HttpClientBuilder httpClientBuilder;
-    private final DocussFormatterGenerator formatter;
+    private final DocussFormatterGenerator formatterGenerator;
     private final DocussPresenter presenter;
 
-    public Docuss() {
+    public Docuss(final DocussFormatterGenerator formatterGenerator, final DocussPresenter presenter) {
         httpClientBuilder = HttpClientBuilder.create();
-        formatter = new YAMLFormatterGenerator();
-        presenter = new StandardOutPresenter();
+        this.formatterGenerator = formatterGenerator;
+        this.presenter = presenter;
     }
 
     public void shouldGet(final URI uri, final Consumer<HttpResponse> expected) {
@@ -74,6 +72,6 @@ public class Docuss {
 
         final DocussResponse docussResponse =
                 new DocussResponse(uri.getPath(), statusLine.getStatusCode(), headers, body);
-        presenter.out(formatter, docussResponse);
+        presenter.out(formatterGenerator, docussResponse);
     }
 }
