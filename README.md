@@ -1,17 +1,32 @@
 Docuss
 =============
 
-TBD
+A library to test with describing documentation for controller layer.
 
 Synopsis
 ---
 
-TBD
+```java
+final Docuss docuss = new Docuss(new YAMLFormatterGenerator(), new StandardOutPresenter());
+docuss.shouldGet(uri, resp -> {
+    assertEquals(200, resp.getStatusLine().getStatusCode());
+});
+```
 
 Description
 --
 
 TBD
+
+Note
+--
+
+This library is under development. API might be change without notice.
+
+See Also
+--
+
+This library is inspired by [autodoc](https://github.com/r7kamura/autodoc).
 
 Author
 --
