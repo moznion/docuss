@@ -70,8 +70,8 @@ public class Docuss {
             headers.add(header.toString());
         }
 
-        final DocussResponse docussResponse =
-                new DocussResponse(uri.getPath(), statusLine.getStatusCode(), headers, body);
-        presenter.out(formatterGenerator, docussResponse);
+        final DocussDocument docussDocument =
+                new DocussDocument(uri.getPath(), statusLine.getStatusCode(), headers, body);
+        presenter.out(formatterGenerator, docussDocument);
     }
 }

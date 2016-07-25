@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-import net.moznion.docuss.DocussResponse;
+import net.moznion.docuss.DocussDocument;
 import net.moznion.docuss.formatter.DocussFormatterGenerator;
 
 public class FileOutPresenter implements DocussPresenter {
@@ -16,7 +16,7 @@ public class FileOutPresenter implements DocussPresenter {
     }
 
     @Override
-    public void out(DocussFormatterGenerator formatterGenerator, DocussResponse response) {
+    public void out(DocussFormatterGenerator formatterGenerator, DocussDocument response) {
         try {
             Files.write(path,
                         formatterGenerator.getFormatterGenerator().apply(response).getBytes(),

@@ -1,9 +1,9 @@
 package net.moznion.docuss.formatter;
 
-import net.moznion.docuss.DocussResponse;
+import net.moznion.docuss.DocussDocument;
 
 import java.util.function.Function;
 
 public interface DocussFormatterGenerator {
-    Function<DocussResponse, String> getFormatterGenerator();
+    Function<DocussDocument, String> getFormatterGenerator();
 }
