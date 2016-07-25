@@ -17,10 +17,10 @@ public class FileOutPresenter implements DocussPresenter {
     }
 
     @Override
-    public void out(DocussFormatterGenerator formatter, DocussResponse response) {
+    public void out(DocussFormatterGenerator formatterGenerator, DocussResponse response) {
         try {
             Files.write(path,
-                        formatter.getFormatterGenerator().apply(response).getBytes(),
+                        formatterGenerator.getFormatterGenerator().apply(response).getBytes(),
                         StandardOpenOption.APPEND);
         } catch (IOException e) {
             throw new RuntimeException(e);

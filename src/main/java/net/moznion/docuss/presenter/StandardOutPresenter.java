@@ -5,7 +5,7 @@ import net.moznion.docuss.formatter.DocussFormatterGenerator;
 
 public class StandardOutPresenter implements DocussPresenter {
     @Override
-    public void out(DocussFormatterGenerator formatter, DocussResponse response) {
-        System.out.println(formatter.getFormatterGenerator().apply(response));
+    public void out(DocussFormatterGenerator formatterGenerator, DocussResponse response) {
+        System.out.println(formatterGenerator.getFormatterGenerator().apply(response));
     }
 }

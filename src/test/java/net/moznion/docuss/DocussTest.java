@@ -12,8 +12,8 @@ public class DocussTest {
     public void shouldAlwaysPass() throws Exception {
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");
-        }, (uri) -> {
-            docuss.shouldGet(uri, (resp) -> {
+        }, uri -> {
+            docuss.shouldGet(uri, resp -> {
                 assertEquals(200, resp.getStatusLine().getStatusCode());
             });
         });

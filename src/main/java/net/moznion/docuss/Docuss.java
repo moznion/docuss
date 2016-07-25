@@ -1,9 +1,12 @@
 package net.moznion.docuss;
 
-import net.moznion.docuss.formatter.DocussFormatterGenerator;
-import net.moznion.docuss.formatter.YAMLFormatterGenerator;
-import net.moznion.docuss.presenter.DocussPresenter;
-import net.moznion.docuss.presenter.StandardOutPresenter;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -17,12 +20,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
+import net.moznion.docuss.formatter.DocussFormatterGenerator;
+import net.moznion.docuss.formatter.YAMLFormatterGenerator;
+import net.moznion.docuss.presenter.DocussPresenter;
+import net.moznion.docuss.presenter.StandardOutPresenter;
 
 public class Docuss {
     private final HttpClientBuilder httpClientBuilder;
