@@ -3,7 +3,7 @@
 
     <groupId>net.moznion</groupId>
     <artifactId>docuss</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <name>docuss</name>
@@ -196,7 +196,7 @@
         <url>https://github.com/moznion/docuss</url>
         <connection>scm:git:git@github.com:moznion/docuss.git</connection>
         <developerConnection>scm:git:git@github.com:moznion/docuss.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>docuss-0.0.2</tag>
     </scm>
 
     <licenses>
