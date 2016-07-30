@@ -1,10 +1,15 @@
 package net.moznion.docuss;
 
 import me.geso.servlettester.jetty.JettyServletTester;
+
 import net.moznion.capture.output.stream.Capturer;
 import net.moznion.docuss.formatter.YAMLFormatterGenerator;
+import net.moznion.docuss.httpclient.ApacheHttpclient;
 import net.moznion.docuss.presenter.FileOutPresenter;
 import net.moznion.docuss.presenter.StandardOutPresenter;
+
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -18,7 +23,9 @@ import static org.junit.Assert.assertTrue;
 public class DocussTest {
     @Test
     public void shouldGetAndDescribeSuccessfully() throws Exception {
-        final Docuss docuss = new Docuss(new YAMLFormatterGenerator(), new StandardOutPresenter());
+        final Docuss<HttpRequest, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+                                                                      new StandardOutPresenter(),
+                                                                      new ApacheHttpclient());
 
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");
@@ -40,7 +47,9 @@ public class DocussTest {
         Files.deleteIfExists(path);
 
         final FileOutPresenter fileOutPresenter = new FileOutPresenter(path);
-        final Docuss docuss = new Docuss(new YAMLFormatterGenerator(), fileOutPresenter);
+        final Docuss<HttpRequest, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+                                                                      fileOutPresenter,
+                                                                      new ApacheHttpclient());
 
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");

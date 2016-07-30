@@ -14,69 +14,69 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.RequestLine;
 import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 import net.moznion.docuss.DocussDocument.Request;
 import net.moznion.docuss.DocussDocument.Response;
 import net.moznion.docuss.formatter.DocussFormatterGenerator;
+import net.moznion.docuss.httpclient.ApacheHttpclient;
+import net.moznion.docuss.httpclient.DocussHttpClient;
+import net.moznion.docuss.httpclient.RequestExecutor;
 import net.moznion.docuss.presenter.DocussPresenter;
 
-public class Docuss {
+public class Docuss<T extends HttpRequest, U extends HttpResponse> {
     private final HttpClientBuilder httpClientBuilder;
+    private final DocussHttpClient<T, U> docussHttpClient;
     private final DocussFormatterGenerator formatterGenerator;
     private final DocussPresenter presenter;
 
-    public Docuss(final DocussFormatterGenerator formatterGenerator, final DocussPresenter presenter) {
+    public Docuss(final DocussFormatterGenerator formatterGenerator,
+                  final DocussPresenter presenter,
+                  final DocussHttpClient<T, U> docussHttpClient) {
         httpClientBuilder = HttpClientBuilder.create();
         this.formatterGenerator = formatterGenerator;
         this.presenter = presenter;
+        this.docussHttpClient = docussHttpClient;
     }
 
-    public void shouldGet(final URI uri, final Consumer<HttpResponse> expected) {
-        shouldAny(uri, new HttpGet(uri), Optional.empty(), expected);
+    public void shouldGet(final URI uri, final Consumer<U> expected) {
+        shouldAny(uri, docussHttpClient.get(uri), Optional.empty(), expected);
     }
 
-    public void shouldPost(final URI uri, final HttpEntity body, final Consumer<HttpResponse> expected) {
-        final HttpPost httpPost = new HttpPost(uri);
-        httpPost.setEntity(body);
-        shouldAny(uri, httpPost, Optional.ofNullable(body), expected);
+    public void shouldPost(final URI uri, final HttpEntity body, final Consumer<U> expected) {
+        shouldAny(uri, docussHttpClient.post(uri, body), Optional.ofNullable(body), expected);
     }
 
-    public void shouldPut(final URI uri, final HttpEntity body, final Consumer<HttpResponse> expected) {
-        final HttpPut httpPut = new HttpPut(uri);
-        httpPut.setEntity(body);
-        shouldAny(uri, httpPut, Optional.ofNullable(body), expected);
+    public void shouldPut(final URI uri, final HttpEntity body, final Consumer<U> expected) {
+        shouldAny(uri, docussHttpClient.put(uri, body), Optional.ofNullable(body), expected);
     }
 
-    public void shouldDelete(final URI uri, final Consumer<HttpResponse> expected) {
-        shouldAny(uri, new HttpDelete(uri), Optional.empty(), expected);
+    public void shouldDelete(final URI uri, final Consumer<U> expected) {
+        shouldAny(uri, docussHttpClient.delete(uri), Optional.empty(), expected);
     }
 
     private void shouldAny(final URI uri,
-                           final HttpUriRequest request,
+                           final RequestExecutor<T, U> requestExecutor,
                            final Optional<HttpEntity> httpEntityOptional,
-                           final Consumer<HttpResponse> expected) {
-        try (final CloseableHttpClient httpClient = httpClientBuilder.build()) {
-            try (final CloseableHttpResponse response = httpClient.execute(request)) {
-                expected.accept(response);
-                describe(uri, request, response, httpEntityOptional);
+                           final Consumer<U> expected) {
+        final ApacheHttpclient apacheHttpclient = new ApacheHttpclient(httpClientBuilder);
+
+        final Consumer<U> consumer = response -> {
+            expected.accept(response);
+            try {
+                describe(uri, requestExecutor.getRequest(), response, httpEntityOptional);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        };
+
+        requestExecutor.getExecutor().accept(consumer);
     }
 
     private void describe(final URI uri,
-                          final HttpRequest request,
-                          final HttpResponse response,
+                          final T request,
+                          final U response,
                           final Optional<HttpEntity> httpEntityOptional) throws IOException {
         final RequestLine requestLine = request.getRequestLine();
         final String requestBody = httpEntityOptional.flatMap(entity -> {
