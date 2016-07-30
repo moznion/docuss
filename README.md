@@ -74,7 +74,7 @@ So if you want to use this library with any HTTP client, please implement this i
 
 Please refer to javadoc.
 
-[![javadoc.io](https://javadocio-badges.herokuapp.com/net.moznion/docuss/badge.svg)](https://javadocio-badges.herokuapp.com/net.moznion/docuss)gj
+[![javadoc.io](https://javadocio-badges.herokuapp.com/net.moznion/docuss/badge.svg)](https://javadocio-badges.herokuapp.com/net.moznion/docuss)
 
 See Also
 --
