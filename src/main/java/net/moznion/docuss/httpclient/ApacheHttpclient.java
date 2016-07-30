@@ -1,17 +1,12 @@
 package net.moznion.docuss.httpclient;
 
-import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
+import net.moznion.docuss.DocussDocument;
+import net.moznion.docuss.DocussDocument.Request;
+import net.moznion.docuss.DocussDocument.Response;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.RequestLine;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -20,13 +15,21 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import net.moznion.docuss.DocussDocument;
-import net.moznion.docuss.DocussDocument.Request;
-import net.moznion.docuss.DocussDocument.Response;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ApacheHttpclient implements DocussHttpClient<HttpEntity, HttpResponse> {
     private final HttpClientBuilder httpClientBuilder;
@@ -80,11 +83,15 @@ public class ApacheHttpclient implements DocussHttpClient<HttpEntity, HttpRespon
                             return Optional.empty();
                         }
                     }).orElse(null);
+
+                    final List<NameValuePair> queryParams = new URIBuilder(uri).getQueryParams();
+
                     final Request req = new Request(requestLine.getMethod(),
-                                                    requestLine.getProtocolVersion().toString(),
-                                                    uri.getPath(),
-                                                    headerArrayToStrings(request.getAllHeaders()),
-                                                    requestBody);
+                            requestLine.getProtocolVersion().toString(),
+                            uri.getPath(),
+                            headerArrayToStrings(request.getAllHeaders()),
+                            requestBody,
+                            queryParamsToMap(queryParams));
 
                     final StatusLine statusLine = response.getStatusLine();
                     final Response res = new Response(
@@ -107,5 +114,13 @@ public class ApacheHttpclient implements DocussHttpClient<HttpEntity, HttpRespon
             headers.add(header.toString());
         }
         return headers;
+    }
+
+    private static Map<String, String> queryParamsToMap(final List<NameValuePair> queryParams) {
+        final Map<String, String> queryParamsMap = new HashMap<>();
+        for (NameValuePair queryParam : queryParams) {
+            queryParamsMap.put(queryParam.getName(), queryParam.getValue());
+        }
+        return queryParamsMap;
     }
 }
