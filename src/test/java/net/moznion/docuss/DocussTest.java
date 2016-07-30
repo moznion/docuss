@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.junit.Test;
 
@@ -22,9 +23,9 @@ import me.geso.servlettester.jetty.JettyServletTester;
 public class DocussTest {
     @Test
     public void shouldGetAndDescribeSuccessfully() throws Exception {
-        final Docuss<HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
-                                                         new StandardOutPresenter(),
-                                                         new ApacheHttpclient());
+        final Docuss<HttpResponse, HttpEntity> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+                                                                     new StandardOutPresenter(),
+                                                                     new ApacheHttpclient());
 
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");
@@ -46,9 +47,9 @@ public class DocussTest {
         Files.deleteIfExists(path);
 
         final FileOutPresenter fileOutPresenter = new FileOutPresenter(path);
-        final Docuss<HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
-                                                         fileOutPresenter,
-                                                         new ApacheHttpclient());
+        final Docuss<HttpResponse, HttpEntity> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+                                                                     fileOutPresenter,
+                                                                     new ApacheHttpclient());
 
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");

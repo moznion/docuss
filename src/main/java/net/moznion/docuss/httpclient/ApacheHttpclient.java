@@ -28,7 +28,7 @@ import net.moznion.docuss.DocussDocument;
 import net.moznion.docuss.DocussDocument.Request;
 import net.moznion.docuss.DocussDocument.Response;
 
-public class ApacheHttpclient implements DocussHttpClient<HttpResponse> {
+public class ApacheHttpclient implements DocussHttpClient<HttpResponse, HttpEntity> {
     private final HttpClientBuilder httpClientBuilder;
 
     public ApacheHttpclient() {
