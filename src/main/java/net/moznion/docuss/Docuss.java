@@ -2,12 +2,12 @@ package net.moznion.docuss;
 
 import java.net.URI;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.apache.http.HttpEntity;
 
 import net.moznion.docuss.formatter.DocussFormatterGenerator;
 import net.moznion.docuss.httpclient.DocussHttpClient;
-import net.moznion.docuss.httpclient.RequestExecutor;
 import net.moznion.docuss.presenter.DocussPresenter;
 
 public class Docuss<T> {
@@ -39,7 +39,8 @@ public class Docuss<T> {
         shouldAny(docussHttpClient.delete(uri), expected);
     }
 
-    private void shouldAny(final RequestExecutor<T> requestExecutor, final Consumer<T> expected) {
-        presenter.out(formatterGenerator, requestExecutor.getExecutor().apply(expected));
+    private void shouldAny(final Function<Consumer<T>, DocussDocument> requestExecutor,
+                           final Consumer<T> expected) {
+        presenter.out(formatterGenerator, requestExecutor.apply(expected));
     }
 }

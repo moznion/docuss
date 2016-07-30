@@ -6,6 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -38,33 +40,33 @@ public class ApacheHttpclient implements DocussHttpClient<HttpResponse> {
     }
 
     @Override
-    public RequestExecutor<HttpResponse> get(final URI uri) {
+    public Function<Consumer<HttpResponse>, DocussDocument> get(final URI uri) {
         return requestAny(new HttpGet(uri), Optional.empty(), uri);
     }
 
     @Override
-    public RequestExecutor<HttpResponse> post(final URI uri, final HttpEntity body) {
+    public Function<Consumer<HttpResponse>, DocussDocument> post(final URI uri, final HttpEntity body) {
         final HttpPost httpPost = new HttpPost(uri);
         httpPost.setEntity(body);
         return requestAny(httpPost, Optional.ofNullable(body), uri);
     }
 
     @Override
-    public RequestExecutor<HttpResponse> put(final URI uri, final HttpEntity body) {
+    public Function<Consumer<HttpResponse>, DocussDocument> put(final URI uri, final HttpEntity body) {
         final HttpPut httpPut = new HttpPut(uri);
         httpPut.setEntity(body);
         return requestAny(httpPut, Optional.ofNullable(body), uri);
     }
 
     @Override
-    public RequestExecutor<HttpResponse> delete(final URI uri) {
+    public Function<Consumer<HttpResponse>, DocussDocument> delete(final URI uri) {
         return requestAny(new HttpDelete(uri), Optional.empty(), uri);
     }
 
-    private RequestExecutor<HttpResponse> requestAny(final HttpUriRequest request,
-                                                     final Optional<HttpEntity> httpEntityOptional,
-                                                     final URI uri) {
-        return new RequestExecutor<>(consumer -> {
+    private Function<Consumer<HttpResponse>, DocussDocument> requestAny(final HttpUriRequest request,
+                                                                        final Optional<HttpEntity> httpEntityOptional,
+                                                                        final URI uri) {
+        return consumer -> {
             try (final CloseableHttpClient httpClient = httpClientBuilder.build()) {
                 try (final CloseableHttpResponse response = httpClient.execute(request)) {
                     consumer.accept(response);
@@ -96,7 +98,7 @@ public class ApacheHttpclient implements DocussHttpClient<HttpResponse> {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });
+        };
     }
 
     private static List<String> headerArrayToStrings(final Header[] headerArray) {
