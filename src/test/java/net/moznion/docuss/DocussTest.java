@@ -23,7 +23,7 @@ import me.geso.servlettester.jetty.JettyServletTester;
 public class DocussTest {
     @Test
     public void shouldGetAndDescribeSuccessfully() throws Exception {
-        final Docuss<HttpResponse, HttpEntity> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+        final Docuss<HttpEntity, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
                                                                      new StandardOutPresenter(),
                                                                      new ApacheHttpclient());
 
@@ -47,7 +47,7 @@ public class DocussTest {
         Files.deleteIfExists(path);
 
         final FileOutPresenter fileOutPresenter = new FileOutPresenter(path);
-        final Docuss<HttpResponse, HttpEntity> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+        final Docuss<HttpEntity, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
                                                                      fileOutPresenter,
                                                                      new ApacheHttpclient());
 

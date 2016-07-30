@@ -6,12 +6,12 @@ import java.util.function.Function;
 
 import net.moznion.docuss.DocussDocument;
 
-public interface DocussHttpClient<T, U> {
-    Function<Consumer<T>, DocussDocument> get(URI uri);
+public interface DocussHttpClient<B, R> {
+    Function<Consumer<R>, DocussDocument> get(URI uri);
 
-    Function<Consumer<T>, DocussDocument> post(URI uri, U body);
+    Function<Consumer<R>, DocussDocument> post(URI uri, B body);
 
-    Function<Consumer<T>, DocussDocument> put(URI uri, U body);
+    Function<Consumer<R>, DocussDocument> put(URI uri, B body);
 
-    Function<Consumer<T>, DocussDocument> delete(URI uri);
+    Function<Consumer<R>, DocussDocument> delete(URI uri);
 }
