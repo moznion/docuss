@@ -10,7 +10,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RequestExecutor<T, U> {
-    private final T request;
-    private final Function<Consumer<U>, DocussDocument> executor;
+public class RequestExecutor<T> {
+    private final Function<Consumer<T>, DocussDocument> executor;
 }

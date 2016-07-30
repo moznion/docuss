@@ -1,6 +1,15 @@
 package net.moznion.docuss;
 
-import me.geso.servlettester.jetty.JettyServletTester;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.http.HttpResponse;
+import org.junit.Test;
 
 import net.moznion.capture.output.stream.Capturer;
 import net.moznion.docuss.formatter.YAMLFormatterGenerator;
@@ -8,24 +17,14 @@ import net.moznion.docuss.httpclient.ApacheHttpclient;
 import net.moznion.docuss.presenter.FileOutPresenter;
 import net.moznion.docuss.presenter.StandardOutPresenter;
 
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import me.geso.servlettester.jetty.JettyServletTester;
 
 public class DocussTest {
     @Test
     public void shouldGetAndDescribeSuccessfully() throws Exception {
-        final Docuss<HttpRequest, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
-                                                                      new StandardOutPresenter(),
-                                                                      new ApacheHttpclient());
+        final Docuss<HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+                                                         new StandardOutPresenter(),
+                                                         new ApacheHttpclient());
 
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");
@@ -47,9 +46,9 @@ public class DocussTest {
         Files.deleteIfExists(path);
 
         final FileOutPresenter fileOutPresenter = new FileOutPresenter(path);
-        final Docuss<HttpRequest, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
-                                                                      fileOutPresenter,
-                                                                      new ApacheHttpclient());
+        final Docuss<HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+                                                         fileOutPresenter,
+                                                         new ApacheHttpclient());
 
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");

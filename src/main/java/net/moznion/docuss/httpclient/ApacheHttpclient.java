@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.RequestLine;
 import org.apache.http.StatusLine;
@@ -27,7 +26,7 @@ import net.moznion.docuss.DocussDocument;
 import net.moznion.docuss.DocussDocument.Request;
 import net.moznion.docuss.DocussDocument.Response;
 
-public class ApacheHttpclient implements DocussHttpClient<HttpRequest, HttpResponse> {
+public class ApacheHttpclient implements DocussHttpClient<HttpResponse> {
     private final HttpClientBuilder httpClientBuilder;
 
     public ApacheHttpclient() {
@@ -39,33 +38,33 @@ public class ApacheHttpclient implements DocussHttpClient<HttpRequest, HttpRespo
     }
 
     @Override
-    public RequestExecutor<HttpRequest, HttpResponse> get(final URI uri) {
+    public RequestExecutor<HttpResponse> get(final URI uri) {
         return requestAny(new HttpGet(uri), Optional.empty(), uri);
     }
 
     @Override
-    public RequestExecutor<HttpRequest, HttpResponse> post(final URI uri, final HttpEntity body) {
+    public RequestExecutor<HttpResponse> post(final URI uri, final HttpEntity body) {
         final HttpPost httpPost = new HttpPost(uri);
         httpPost.setEntity(body);
         return requestAny(httpPost, Optional.ofNullable(body), uri);
     }
 
     @Override
-    public RequestExecutor<HttpRequest, HttpResponse> put(final URI uri, final HttpEntity body) {
+    public RequestExecutor<HttpResponse> put(final URI uri, final HttpEntity body) {
         final HttpPut httpPut = new HttpPut(uri);
         httpPut.setEntity(body);
         return requestAny(httpPut, Optional.ofNullable(body), uri);
     }
 
     @Override
-    public RequestExecutor<HttpRequest, HttpResponse> delete(final URI uri) {
+    public RequestExecutor<HttpResponse> delete(final URI uri) {
         return requestAny(new HttpDelete(uri), Optional.empty(), uri);
     }
 
-    private RequestExecutor<HttpRequest, HttpResponse> requestAny(final HttpUriRequest request,
-                                                                  final Optional<HttpEntity> httpEntityOptional,
-                                                                  final URI uri) {
-        return new RequestExecutor<>(request, consumer -> {
+    private RequestExecutor<HttpResponse> requestAny(final HttpUriRequest request,
+                                                     final Optional<HttpEntity> httpEntityOptional,
+                                                     final URI uri) {
+        return new RequestExecutor<>(consumer -> {
             try (final CloseableHttpClient httpClient = httpClientBuilder.build()) {
                 try (final CloseableHttpResponse response = httpClient.execute(request)) {
                     consumer.accept(response);

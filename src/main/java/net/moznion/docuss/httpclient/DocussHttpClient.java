@@ -4,12 +4,12 @@ import java.net.URI;
 
 import org.apache.http.HttpEntity;
 
-public interface DocussHttpClient<T, U> {
-    RequestExecutor<T, U> get(URI uri);
+public interface DocussHttpClient<T> {
+    RequestExecutor<T> get(URI uri);
 
-    RequestExecutor<T, U> post(URI uri, HttpEntity body);
+    RequestExecutor<T> post(URI uri, HttpEntity body);
 
-    RequestExecutor<T, U> put(URI uri, HttpEntity body);
+    RequestExecutor<T> put(URI uri, HttpEntity body);
 
-    RequestExecutor<T, U> delete(URI uri);
+    RequestExecutor<T> delete(URI uri);
 }
