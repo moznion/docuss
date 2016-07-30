@@ -1,7 +1,7 @@
 Docuss [![Build Status](https://travis-ci.org/moznion/docuss.svg?branch=master)](https://travis-ci.org/moznion/docuss) [![javadoc.io](https://javadocio-badges.herokuapp.com/net.moznion/docuss/badge.svg)](https://javadocio-badges.herokuapp.com/net.moznion/docuss)
 ==
 
-A library to test with describing documentation for controller layer.
+A library to test with describing document for controller layer.
 
 Synopsis
 --

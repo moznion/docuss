@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
 
     <name>docuss</name>
-    <description>A library to test with describing documentation for controller layer</description>
+    <description>A library to test with describing document for controller layer</description>
     <url>https://github.com/moznion/docuss</url>
 
     <properties>

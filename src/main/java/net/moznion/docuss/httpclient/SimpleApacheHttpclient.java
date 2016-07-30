@@ -31,22 +31,46 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A simple Docuss HTTP client that uses Apache httpclient.
+ */
 public class SimpleApacheHttpclient implements DocussHttpClient<HttpEntity, HttpResponse> {
     private final HttpClientBuilder httpClientBuilder;
 
+    /**
+     * A constructor that uses default {@link HttpClientBuilder}.
+     */
     public SimpleApacheHttpclient() {
         httpClientBuilder = HttpClientBuilder.create();
     }
 
+    /**
+     * A constructor.
+     *
+     * @param httpClientBuilder Builder of Apache httpclient.
+     */
     public SimpleApacheHttpclient(final HttpClientBuilder httpClientBuilder) {
         this.httpClientBuilder = httpClientBuilder;
     }
 
+    /**
+     * Request by HTTP Get method.
+     *
+     * @param uri URI of request.
+     * @return Function that takes consumer to test response and returns document of the result.
+     */
     @Override
     public Function<Consumer<HttpResponse>, DocussDocument> get(final URI uri) {
         return requestAny(new HttpGet(uri), Optional.empty(), uri);
     }
 
+    /**
+     * Request by HTTP Post method.
+     *
+     * @param uri  URI of request.
+     * @param body Body of request.
+     * @return Function that takes consumer to test response and returns document of the result.
+     */
     @Override
     public Function<Consumer<HttpResponse>, DocussDocument> post(final URI uri, final HttpEntity body) {
         final HttpPost httpPost = new HttpPost(uri);
@@ -54,6 +78,13 @@ public class SimpleApacheHttpclient implements DocussHttpClient<HttpEntity, Http
         return requestAny(httpPost, Optional.ofNullable(body), uri);
     }
 
+    /**
+     * Request by HTTP Put method.
+     *
+     * @param uri  URI of request.
+     * @param body Body of request.
+     * @return Function that takes consumer to test response and returns document of the result.
+     */
     @Override
     public Function<Consumer<HttpResponse>, DocussDocument> put(final URI uri, final HttpEntity body) {
         final HttpPut httpPut = new HttpPut(uri);
@@ -61,6 +92,12 @@ public class SimpleApacheHttpclient implements DocussHttpClient<HttpEntity, Http
         return requestAny(httpPut, Optional.ofNullable(body), uri);
     }
 
+    /**
+     * Request by HTTP Delete method.
+     *
+     * @param uri URI of request.
+     * @return Function that takes consumer to test response and returns document of the result.
+     */
     @Override
     public Function<Consumer<HttpResponse>, DocussDocument> delete(final URI uri) {
         return requestAny(new HttpDelete(uri), Optional.empty(), uri);
@@ -69,10 +106,10 @@ public class SimpleApacheHttpclient implements DocussHttpClient<HttpEntity, Http
     private Function<Consumer<HttpResponse>, DocussDocument> requestAny(final HttpUriRequest request,
                                                                         final Optional<HttpEntity> httpEntityOptional,
                                                                         final URI uri) {
-        return consumer -> {
+        return expected -> {
             try (final CloseableHttpClient httpClient = httpClientBuilder.build()) {
                 try (final CloseableHttpResponse response = httpClient.execute(request)) {
-                    consumer.accept(response);
+                    expected.accept(response);
 
                     final RequestLine requestLine = request.getRequestLine();
                     final String requestBody = httpEntityOptional.flatMap(entity -> {

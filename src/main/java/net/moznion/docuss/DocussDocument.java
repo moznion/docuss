@@ -1,12 +1,15 @@
 package net.moznion.docuss;
 
-import java.util.List;
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Represents HTTP request and response of document.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,6 +17,9 @@ public class DocussDocument {
     private Request request;
     private Response response;
 
+    /**
+     * A HTTP request of document.
+     */
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -26,6 +32,9 @@ public class DocussDocument {
         private Map<String, String> queryParameters;
     }
 
+    /**
+     * A HTTP response of document.
+     */
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
