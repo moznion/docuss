@@ -36,7 +36,7 @@ request:
   path: "/foo/bar"
   headers: []
   body: null
-  queryParameters: {}
+  queryParams: {}
 response:
   protocol: "HTTP/1.1"
   statusCode: 200
