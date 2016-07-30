@@ -7,7 +7,9 @@ Synopsis
 --
 
 ```java
-final Docuss docuss = new Docuss(new YAMLFormatterGenerator(), new StandardOutPresenter());
+final Docuss<HttpEntity, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
+                                                             new StandardOutPresenter(),
+                                                             new ApacheHttpclient());
 docuss.shouldGet(uri, resp -> {
     assertEquals(200, resp.getStatusLine().getStatusCode());
 });
