@@ -31,14 +31,14 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class ApacheHttpclient implements DocussHttpClient<HttpEntity, HttpResponse> {
+public class SimpleApacheHttpclient implements DocussHttpClient<HttpEntity, HttpResponse> {
     private final HttpClientBuilder httpClientBuilder;
 
-    public ApacheHttpclient() {
+    public SimpleApacheHttpclient() {
         httpClientBuilder = HttpClientBuilder.create();
     }
 
-    public ApacheHttpclient(final HttpClientBuilder httpClientBuilder) {
+    public SimpleApacheHttpclient(final HttpClientBuilder httpClientBuilder) {
         this.httpClientBuilder = httpClientBuilder;
     }
 

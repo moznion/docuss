@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import net.moznion.capture.output.stream.Capturer;
 import net.moznion.docuss.formatter.YAMLFormatterGenerator;
-import net.moznion.docuss.httpclient.ApacheHttpclient;
+import net.moznion.docuss.httpclient.SimpleApacheHttpclient;
 import net.moznion.docuss.presenter.FileOutPresenter;
 import net.moznion.docuss.presenter.StandardOutPresenter;
 
@@ -25,7 +25,7 @@ public class DocussTest {
     public void shouldGetAndDescribeSuccessfully() throws Exception {
         final Docuss<HttpEntity, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
                                                                      new StandardOutPresenter(),
-                                                                     new ApacheHttpclient());
+                                                                     new SimpleApacheHttpclient());
 
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");
@@ -49,7 +49,7 @@ public class DocussTest {
         final FileOutPresenter fileOutPresenter = new FileOutPresenter(path);
         final Docuss<HttpEntity, HttpResponse> docuss = new Docuss<>(new YAMLFormatterGenerator(),
                                                                      fileOutPresenter,
-                                                                     new ApacheHttpclient());
+                                                                     new SimpleApacheHttpclient());
 
         JettyServletTester.runServlet((req, resp) -> {
             resp.getWriter().print("{\"msg\": \"Hey\",\n\"value\": 100}");
