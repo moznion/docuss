@@ -4,14 +4,13 @@ import java.net.URI;
 import java.util.function.Consumer;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 
 import net.moznion.docuss.formatter.DocussFormatterGenerator;
 import net.moznion.docuss.httpclient.DocussHttpClient;
 import net.moznion.docuss.httpclient.RequestExecutor;
 import net.moznion.docuss.presenter.DocussPresenter;
 
-public class Docuss<T extends HttpResponse> {
+public class Docuss<T> {
     private final DocussHttpClient<T> docussHttpClient;
     private final DocussFormatterGenerator formatterGenerator;
     private final DocussPresenter presenter;
