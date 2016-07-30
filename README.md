@@ -26,7 +26,7 @@ And the response of the request is passed to given lambda as a parameter.
 We must write code into lambda to test the response.
 
 When testing is finished successfully, it outputs contents of request and response as arbitrary format.
-For example, it outputs as follows hen the code that is shown on [Synopsis](#Synopsis) is given.
+For example, it outputs as follows hen the code that is shown on [Synopsis](#synopsis) is given.
 
 ```yaml
 ---
